@@ -44,3 +44,7 @@ app.*.map.json
 
 # Generate Dart files
 *.g.dart
+
+# Credentials
+/firebase.json
+/lib/firebase_options.dart

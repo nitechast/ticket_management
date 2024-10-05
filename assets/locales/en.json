@@ -1,9 +1,16 @@
 {
+  "format": {
+    "Hm": "HH:mm",
+    "MMMMd": "MMMM d",
+    "name": "{}",
+    "seatUnit": "seat(s)"
+  },
   "app": {
     "name": "NITech Astronomy Club Ticket System"
   },
   "home": {
-    "scan": "Scan ticket"
+    "scan": "Scan ticket",
+    "schedule": "Schedule"
   },
   "scanner": {
     "title": "@:home.scan"
