@@ -1,0 +1,11 @@
+{
+  "app": {
+    "name": "NITech Astronomy Club Ticket System"
+  },
+  "home": {
+    "scan": "Scan ticket"
+  },
+  "scanner": {
+    "title": "@:home.scan"
+  }
+}

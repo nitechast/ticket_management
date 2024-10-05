@@ -1,4 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:ticket_management/generated/locale_keys.g.dart';
+import 'package:ticket_management/scanner_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -10,12 +13,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  final size = 128.0;
+
+  void onScanPressed() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return const ScannerPage();
+    }));
   }
 
   @override
@@ -23,21 +27,11 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(""),
+        title: Text(LocaleKeys.app_name.tr()),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: onScanPressed,
+        child: const Icon(Icons.qr_code_2),
       ),
     );
   }
