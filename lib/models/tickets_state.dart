@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ticket_management/firestore.dart';
+import 'package:ticket_management/firebase.dart';
 import 'package:ticket_management/models/schedule.dart';
 import 'package:ticket_management/models/ticket.dart';
 
@@ -15,7 +15,7 @@ class TicketsState extends StateNotifier<List<Ticket>> {
   void clear() => state = [];
 
   Future<void> set(String section, String namespace, Ticket ticket) async {
-    final client = FirestoreHelper();
+    final client = FirebaseHelper();
     await client.setTicket(section, namespace, ticket);
     get(section, namespace);
   }
@@ -24,7 +24,7 @@ class TicketsState extends StateNotifier<List<Ticket>> {
   ///
   /// This method overrides [state]
   Future<void> get(String section, String namespace) async {
-    final client = FirestoreHelper();
+    final client = FirebaseHelper();
     final List<Ticket> response = await client.getTickets(section, namespace);
     if (response.isEmpty) {
       return;
@@ -45,7 +45,7 @@ class SchedulesState extends StateNotifier<List<Schedule>> {
   void clear() => state = [];
 
   Future<void> set(String section, String namespace, Ticket ticket) async {
-    final client = FirestoreHelper();
+    final client = FirebaseHelper();
     await client.setTicket(section, namespace, ticket);
     get(section, namespace);
   }
@@ -54,7 +54,7 @@ class SchedulesState extends StateNotifier<List<Schedule>> {
   ///
   /// This method overrides [state]
   Future<void> get(String section, String namespace) async {
-    final client = FirestoreHelper();
+    final client = FirebaseHelper();
     final List<Schedule> response = await client.getSchedule(section, namespace);
     if (response.isEmpty) {
       return;

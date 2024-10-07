@@ -2,17 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ticket_management/models/schedule.dart';
 import 'package:ticket_management/models/ticket.dart';
 
-class FirestoreHelper {
+class FirebaseHelper {
 
   static const String paramTickets = "tickets";
 
   static const String paramSchedules = "schedules";
 
-  static final FirestoreHelper _instance = FirestoreHelper._();
+  static final FirebaseHelper _instance = FirebaseHelper._();
 
-  factory FirestoreHelper() => _instance;
+  factory FirebaseHelper() => _instance;
 
-  FirestoreHelper._();
+  FirebaseHelper._();
 
   FirebaseFirestore get db => _db;
 
