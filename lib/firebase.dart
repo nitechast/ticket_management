@@ -4,25 +4,17 @@ import 'package:ticket_management/models/model.dart';
 
 class FirebaseHelper {
 
+  static const String sectionGlobal = "global";
+
   static const String sectionPlanetarium = "planetarium";
 
-  static const String paramTickets = "tickets";
-
-  static const String paramSchedules = "schedules";
+  static const String namespaceIam = "iam";
 
   static final FirebaseHelper _instance = FirebaseHelper._();
 
   factory FirebaseHelper() => _instance;
 
   FirebaseHelper._();
-
-  Future<UserCredential> signInWithGoogle() async {
-    // Create a new provider
-    GoogleAuthProvider googleProvider = GoogleAuthProvider();
-
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithPopup(googleProvider);
-  }
 
   FirebaseFirestore get db => _db;
 
@@ -37,15 +29,44 @@ class FirebaseHelper {
         .collection(Model.getParam<T>()).doc(data.code).set(data.map);
   }
 
-  Future<List<T>> get<T extends Model>({
+  Future<void> update<T extends Model>({
+    required String section,
+    required String namespace,
+    required T data,
+  }) async {
+    return await db.collection(section).doc(namespace)
+        .collection(Model.getParam<T>()).doc(data.code).update(data.map);
+  }
+
+  Future<Map<String, dynamic>?> get<T extends Model>({
+    required String section,
+    required String namespace,
+    required String doc,
+  }) async {
+    final result = await db.collection(section).doc(namespace).collection(Model.getParam<T>()).doc(doc).snapshots().first;
+    if (result.data() == null) {
+      return null;
+    }
+    return result.data()!;
+  }
+
+  Future<List<Map<String, dynamic>>> gets<T extends Model>({
     required String section,
     required String namespace,
   }) async {
     final event = await db.collection(section).doc(namespace).collection(Model.getParam<T>()).get();
-    List<T> results = [];
+    List<Map<String, dynamic>> results = [];
     for(var doc in event.docs) {
-      results.add(Model.fromMap(doc as Map<String, dynamic>) as T);
+      results.add(doc as Map<String, dynamic>);
     }
     return results;
+  }
+
+  Future<UserCredential> signInWithGoogle() async {
+    // Create a new provider
+    GoogleAuthProvider googleProvider = GoogleAuthProvider();
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithPopup(googleProvider);
   }
 }

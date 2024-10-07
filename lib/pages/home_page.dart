@@ -21,11 +21,14 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   final size = 128.0;
 
-  int fragmentIndex = 0;
+  final titles = [
+    LocaleKeys.app_name.tr(),
+    LocaleKeys.home_title_editor.tr(),
+    LocaleKeys.home_title_default.tr(),
+  ];
 
   void onEntered() {
     setState(() {
-      fragmentIndex = ref.watch(provider.user).isDefault ? 2 : 1;
     });
   }
 
@@ -37,10 +40,12 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(provider.user);
+    final fragmentIndex = user.isValid ? (user.isEditor ? 1 : 2) : 0;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(LocaleKeys.app_name.tr()),
+        title: Text(titles[fragmentIndex]),
         actions: [
           IconButton(
             icon: const Icon(Icons.schedule_outlined),

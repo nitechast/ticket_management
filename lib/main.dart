@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -17,6 +18,7 @@ void main() async {
   if (kDebugMode) {
     // You can run emulator by 'firebase emulators:start'
     await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
   }
   runApp(EasyLocalization(
     supportedLocales: const [

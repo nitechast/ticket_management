@@ -18,25 +18,28 @@ class AuthFragment extends ConsumerStatefulWidget {
 
 class _AuthFragmentState extends ConsumerState<AuthFragment> {
 
-  int userType = 0;
+  bool useManager = false;
 
   bool? status;
 
-  void onUserTypeChanged(int index) {
+  void onUserTypeChanged(bool value) {
     setState(() {
-      userType = index;
+      useManager = value;
     });
   }
 
   void onButtonPressed() async {
-    if (userType > 0) {
-      final result = await provider.signIn(ref);
-      setState(() {
-        status = result;
-      });
-      if (!result) {
-        return;
-      }
+    bool result = true;
+    if (useManager) {
+      result = await provider.signIn(ref);
+    } else {
+      provider.signAnonymous(ref);
+    }
+    setState(() {
+      status = result;
+    });
+    if (!result) {
+      return;
     }
     widget.onEntered();
   }
@@ -63,13 +66,14 @@ class _AuthFragmentState extends ConsumerState<AuthFragment> {
               ),
             ),
             // User type
-            ToggleButtons(
-              isSelected: List<bool>.generate(3, (index) => index == userType),
-              onPressed: onUserTypeChanged,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(LocaleKeys.auth_normal.tr()),
-                Text(LocaleKeys.auth_receipt.tr()),
-                Text(LocaleKeys.auth_admin.tr()),
+                Text(LocaleKeys.auth_msgUseManager.tr()),
+                Switch(
+                  value: useManager,
+                  onChanged: onUserTypeChanged,
+                ),
               ],
             ),
             // Begin

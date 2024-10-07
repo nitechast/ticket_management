@@ -1,5 +1,6 @@
 import 'package:ticket_management/models/schedule.dart';
 import 'package:ticket_management/models/ticket.dart';
+import 'package:ticket_management/models/user.dart';
 
 class Model {
 
@@ -10,6 +11,8 @@ class Model {
       return "tickets";
     } else if (T == Schedule) {
       return "schedules";
+    } else if (T == User) {
+      return "users";
     }
     throw UnimplementedError();
   }
@@ -23,6 +26,8 @@ class Model {
   Map<String, dynamic> get map => _map;
 
   Map<String, dynamic> _map = {};
+
+  bool get isValid => map.isNotEmpty;
 
   String get code => throw UnimplementedError();
 

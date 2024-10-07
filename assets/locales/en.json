@@ -10,7 +10,11 @@
   },
   "home": {
     "scan": "Scan ticket",
-    "schedule": "Schedule"
+    "schedule": "Schedule",
+    "title": {
+      "default": "Schedules",
+      "editor": "Issue history"
+    }
   },
   "scanner": {
     "title": "@:home.scan"
@@ -18,11 +22,9 @@
   "auth": {
     "section": "Section",
     "namespace": "Namespace",
-    "normal": "Normal",
-    "receipt": "Receipt",
-    "admin": "Admin",
     "enter": "Enter",
     "msgFailed": "Failed to enter system",
-    "msgSuccess": "Entering successful"
+    "msgSuccess": "Entering successful",
+    "msgUseManager": "Enable management mode"
   }
 }

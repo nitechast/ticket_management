@@ -11,6 +11,8 @@ class User extends Model {
 
   static const int levelDefault = 9;
 
+  static const String nameAnonymous = "anonymous";
+
   static const String keyLevel = "level";
 
   static const String keyUid = "uid";
@@ -21,16 +23,25 @@ class User extends Model {
 
   User() : super();
 
+  User.fromMap(super.map) : super.fromMap();
+
   User.fromFirebase(auth.User user) {
     map[keyUid] = user.uid;
     map[keyName] = user.displayName;
     map[keyImageUrl] = user.photoURL;
   }
 
+  User.anonymous() {
+    map[keyName] = nameAnonymous;
+    map[keyUid] = nameAnonymous;
+  }
+
   @override
-  String get code => paramName;
+  String get code => uid;
 
   int get level => getValue<int>(keyLevel) ?? levelDefault;
+
+  String get uid => getValue<String>(keyUid) ?? "";
 
   String get name => getValue<String>(keyName) ?? "";
 
