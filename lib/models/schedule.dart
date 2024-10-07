@@ -3,6 +3,8 @@ import 'package:ticket_management/models/model.dart';
 
 class Schedule extends Model {
 
+  static const String paramName = "schedules";
+
   static const String formatDateTime = "yyyy-MM-dd HH:mm";
 
   static const String keyDateTime = "datetime";
@@ -15,6 +17,7 @@ class Schedule extends Model {
 
   Schedule.fromMap(super.map) : super.fromMap();
 
+  @override
   String get code => getCode(datetime);
 
   DateTime get datetime => getDateTime(keyDateTime) ?? DateTime.now();

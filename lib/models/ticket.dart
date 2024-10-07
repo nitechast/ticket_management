@@ -2,6 +2,8 @@ import 'package:ticket_management/models/model.dart';
 
 class Ticket extends Model {
 
+  static const String paramName = "ticket";
+
   Ticket({
     DateTime? date,
     required String name,
@@ -48,6 +50,7 @@ class Ticket extends Model {
 
   set issued(value) => setDateTime(keyIssued, value);
 
+  @override
   String get code => getValue<String>(keyCode) ?? "";
 
   set code(String code) => setValue<String>(keyCode, code);

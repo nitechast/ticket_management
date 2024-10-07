@@ -1,4 +1,18 @@
-abstract class Model {
+import 'package:ticket_management/models/schedule.dart';
+import 'package:ticket_management/models/ticket.dart';
+
+class Model {
+
+  static String getParam<T>() {
+    if (T == Model) {
+      return "models";
+    } else if (T == Ticket) {
+      return "tickets";
+    } else if (T == Schedule) {
+      return "schedules";
+    }
+    throw UnimplementedError();
+  }
 
   Model();
 
@@ -9,6 +23,8 @@ abstract class Model {
   Map<String, dynamic> get map => _map;
 
   Map<String, dynamic> _map = {};
+
+  String get code => throw UnimplementedError();
 
   T? getValue<T>(String key) {
     if (!map.containsKey(key)) {

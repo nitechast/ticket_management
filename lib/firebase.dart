@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ticket_management/models/schedule.dart';
-import 'package:ticket_management/models/ticket.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ticket_management/models/model.dart';
 
 class FirebaseHelper {
+
+  static const String sectionPlanetarium = "planetarium";
 
   static const String paramTickets = "tickets";
 
@@ -18,34 +20,24 @@ class FirebaseHelper {
 
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  Future<void> setTicket(String section, String namespace, Ticket ticket) async {
-    db.collection(section).doc(namespace)
-        .collection(paramTickets).doc(ticket.code).set(ticket.map);
+  Future<void> set<T extends Model>({
+    required String section,
+    required String namespace,
+    required T data,
+  }) async {
+    return await db.collection(section).doc(namespace)
+        .collection(Model.getParam<T>()).doc(data.code).set(data.map);
   }
 
-  Future<List<Ticket>> getTickets(String section, String namespace) async {
-    final event = await db.collection(section).doc(namespace)
-        .collection(paramTickets).get();
-    List<Ticket> results = [];
+  Future<List<T>> get<T extends Model>({
+    required String section,
+    required String namespace,
+  }) async {
+    final event = await db.collection(section).doc(namespace).collection(Model.getParam<T>()).get();
+    List<T> results = [];
     for(var doc in event.docs) {
-      results.add(Ticket.fromMap(doc as Map<String, dynamic>));
+      results.add(Model.fromMap(doc as Map<String, dynamic>) as T);
     }
     return results;
   }
-
-  Future<void> setSchedule(String section, String namespace, Schedule schedule) async {
-    db.collection(section).doc(namespace)
-        .collection(paramSchedules).doc(schedule.code).set(schedule.map);
-  }
-
-  Future<List<Schedule>> getSchedule(String section, String namespace) async {
-    final event = await db.collection(section).doc(namespace)
-        .collection(paramTickets).get();
-    List<Schedule> results = [];
-    for(var doc in event.docs) {
-      results.add(Schedule.fromMap(doc as Map<String, dynamic>));
-    }
-    return results;
-  }
-
 }
