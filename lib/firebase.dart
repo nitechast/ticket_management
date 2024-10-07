@@ -16,6 +16,17 @@ class FirebaseHelper {
 
   FirebaseHelper._();
 
+  Future<UserCredential> signInWithGoogle() async {
+    // Create a new provider
+    GoogleAuthProvider googleProvider = GoogleAuthProvider();
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithPopup(googleProvider);
+
+    // Or use signInWithRedirect
+    // return await FirebaseAuth.instance.signInWithRedirect(googleProvider);
+  }
+
   FirebaseFirestore get db => _db;
 
   final FirebaseFirestore _db = FirebaseFirestore.instance;

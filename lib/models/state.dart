@@ -36,3 +36,19 @@ class ModelsState<T extends Model> extends StateNotifier<List<T>> {
     state = response;
   }
 }
+
+class ObjectState<T extends Model> extends StateNotifier<T> {
+
+  ObjectState(this.ref, this.base) : super(base);
+
+  final Ref ref;
+
+  final T base;
+
+  /// Clear state
+  void clear() => state = base;
+
+  void set(T object) async {
+    state = object;
+  }
+}
