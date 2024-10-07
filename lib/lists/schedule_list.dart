@@ -41,6 +41,9 @@ class _ScheduleListState extends ConsumerState<ScheduleList> {
   Widget build(BuildContext context) {
     final schedules = ref.watch(_schedules);
     final tickets = ref.watch(_tickets);
+    if (schedules.isEmpty) {
+      return const Icon(Icons.disabled_visible_outlined);
+    }
     return ListView.builder(
       itemCount: schedules.length,
       itemBuilder: (context, index) {

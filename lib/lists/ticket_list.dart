@@ -29,6 +29,9 @@ class _TicketListState extends ConsumerState<TicketList> {
   @override
   Widget build(BuildContext context) {
     final tickets = ref.watch(_tickets);
+    if (tickets.isEmpty) {
+      return const Icon(Icons.disabled_by_default_outlined);
+    }
     return ListView.builder(
       itemCount: tickets.length,
       itemBuilder: (context, index) {
