@@ -13,7 +13,7 @@ class TicketCard extends StatelessWidget {
 
   final Ticket ticket;
 
-  final Function(Ticket)? onTap;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +37,7 @@ class TicketCard extends StatelessWidget {
               Text(LocaleKeys.format_seatUnit.tr(),),
             ],
           ),
-          onTap: onTap == null ? null : () {
-            onTap!(ticket);
-          },
+          onTap: onTap,
         ),
       ),
     );

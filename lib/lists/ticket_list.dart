@@ -15,7 +15,10 @@ final _tickets = Provider<List<Ticket>>((ref) {
 class TicketList extends ConsumerStatefulWidget {
   const TicketList({
     super.key,
+    this.onTap,
   });
+
+  final Function(Ticket)? onTap;
 
   @override
   ConsumerState createState() => _TicketListState();
@@ -32,7 +35,9 @@ class _TicketListState extends ConsumerState<TicketList> {
         final item = tickets[index];
         return TicketCard(
           ticket: item,
-          onTap: (data) {},
+          onTap: widget.onTap == null ? null : () {
+            widget.onTap!(item);
+          },
         );
       },
     );
