@@ -22,9 +22,6 @@ class FirebaseHelper {
 
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithPopup(googleProvider);
-
-    // Or use signInWithRedirect
-    // return await FirebaseAuth.instance.signInWithRedirect(googleProvider);
   }
 
   FirebaseFirestore get db => _db;

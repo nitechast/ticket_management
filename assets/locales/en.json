@@ -14,5 +14,15 @@
   },
   "scanner": {
     "title": "@:home.scan"
+  },
+  "auth": {
+    "section": "Section",
+    "namespace": "Namespace",
+    "normal": "Normal",
+    "receipt": "Receipt",
+    "admin": "Admin",
+    "enter": "Enter",
+    "msgFailed": "Failed to enter system",
+    "msgSuccess": "Entering successful"
   }
 }

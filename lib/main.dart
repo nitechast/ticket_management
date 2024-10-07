@@ -1,4 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ticket_management/pages/home_page.dart';
@@ -11,6 +13,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // Ideal time to initialize
+  if (kDebugMode) {
+    // You can run emulator by 'firebase emulators:start'
+    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  }
   runApp(EasyLocalization(
     supportedLocales: const [
       Locale('en'),

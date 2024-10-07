@@ -36,4 +36,10 @@ class User extends Model {
 
   String? get imageUrl => getValue<String>(keyImageUrl);
 
+  bool get isDefault => level <= levelDefault;
+
+  bool get isEditor => level <= levelEditor;
+
+  bool get isAdmin => level <= levelAdmin;
+
 }
