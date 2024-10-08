@@ -26,7 +26,7 @@ class FirebaseHelper {
     required T data,
   }) async {
     return await db.collection(section).doc(namespace)
-        .collection(Model.getParam<T>()).doc(data.code).set(data.map);
+        .collection(Model.getParam<T>()).doc(data.uid).set(data.map);
   }
 
   Future<void> update<T extends Model>({
@@ -35,7 +35,16 @@ class FirebaseHelper {
     required T data,
   }) async {
     return await db.collection(section).doc(namespace)
-        .collection(Model.getParam<T>()).doc(data.code).update(data.map);
+        .collection(Model.getParam<T>()).doc(data.uid).update(data.map);
+  }
+
+  Future<void> delete<T extends Model>({
+    required String section,
+    required String namespace,
+    required String uid,
+  }) async {
+    return await db.collection(section).doc(namespace)
+        .collection(Model.getParam<T>()).doc(uid).delete();
   }
 
   Future<Map<String, dynamic>?> get<T extends Model>({

@@ -11,7 +11,7 @@ class Ticket extends Model {
     DateTime? issued,
     required String code,
     bool expired = false,
-  }) {
+  }) : super() {
     this.date = date ?? DateTime.now();
     this.name = name;
     this.number = number;

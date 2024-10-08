@@ -1,8 +1,11 @@
 import 'package:ticket_management/models/schedule.dart';
 import 'package:ticket_management/models/ticket.dart';
 import 'package:ticket_management/models/user.dart';
+import 'package:uuid/uuid.dart';
 
 class Model {
+
+  static const String keyUid = "uid";
 
   static String getParam<T>() {
     if (T == Model) {
@@ -17,9 +20,12 @@ class Model {
     throw UnimplementedError();
   }
 
-  Model();
+  Model() {
+    map[keyUid] = const Uuid().v4();
+  }
 
   Model.fromMap(Map<String, dynamic> map) {
+    this;
     _map = map;
   }
 
@@ -27,9 +33,11 @@ class Model {
 
   Map<String, dynamic> _map = {};
 
-  bool get isValid => map.isNotEmpty;
+  bool get isValid => map.length > 1;
 
   String get code => throw UnimplementedError();
+
+  String get uid => getValue<String>(keyUid) ?? "";
 
   T? getValue<T>(String key) {
     if (!map.containsKey(key)) {

@@ -23,6 +23,26 @@ class ModelsState<T extends Model> extends StateNotifier<List<T>> {
     get(section, namespace);
   }
 
+  Future<void> update(String section, String namespace, T data) async {
+    final client = FirebaseHelper();
+    await client.update<T>(
+      section: section,
+      namespace: namespace,
+      data: data,
+    );
+    get(section, namespace);
+  }
+
+  Future<void> delete(String section, String namespace, String uid) async {
+    final client = FirebaseHelper();
+    await client.delete<T>(
+      section: section,
+      namespace: namespace,
+      uid: uid,
+    );
+    get(section, namespace);
+  }
+
   /// Request [T] items fit to [condition] and filter by [options]
   ///
   /// This method overrides [state]
@@ -90,5 +110,21 @@ class ModelState<T extends Model> extends StateNotifier<T> {
       return;
     }
     state = convert(response);
+  }
+}
+
+class ObjectState<T extends Object> extends StateNotifier<T> {
+
+  ObjectState(this.ref, this.base) : super(base);
+
+  final Ref ref;
+
+  final T base;
+
+  /// Clear state
+  void clear() => state = base;
+
+  void set(T data) {
+    state = data;
   }
 }
