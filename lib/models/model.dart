@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:ticket_management/models/schedule.dart';
 import 'package:ticket_management/models/ticket.dart';
 import 'package:ticket_management/models/user.dart';
@@ -60,6 +61,25 @@ class Model {
 
   void setDateTime(String key, DateTime value) {
     setValue<String>(key, value.toUtc().toIso8601String());
+  }
+
+  void setDate(String key, DateTime date) {
+    final value = getDateTime(key);
+    if (value == null) return;
+    setDateTime(key, value.copyWith(
+      year: date.year,
+      month: date.month,
+      day: date.day,
+    ));
+  }
+
+  void setTime(String key, TimeOfDay tod) {
+    final value = getDateTime(key);
+    if (value == null) return;
+    setDateTime(key, value.copyWith(
+      hour: tod.hour,
+      minute: tod.minute,
+    ));
   }
 
 }

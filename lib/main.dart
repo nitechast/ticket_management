@@ -4,7 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ticket_management/pages/home_page.dart';
+import 'package:ticket_management/generated/locale_keys.g.dart';
+import 'package:ticket_management/pages/customer_page.dart';
+import 'package:ticket_management/pages/dashboard_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -38,15 +40,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: LocaleKeys.app_name.tr(),
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         useMaterial3: true,
       ),
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: const HomePage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const DashboardPage(),
+        '/schedules': (context) => const CustomerPage(),
+      },
     );
   }
 }

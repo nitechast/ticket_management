@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:ticket_management/models/model.dart';
 
 class FirebaseHelper {
@@ -10,6 +11,10 @@ class FirebaseHelper {
 
   static const String namespaceIam = "iam";
 
+  static const String namespaceTest = "test";
+
+  static const String namespaceProduction = "production";
+
   static final FirebaseHelper _instance = FirebaseHelper._();
 
   factory FirebaseHelper() => _instance;
@@ -19,6 +24,21 @@ class FirebaseHelper {
   FirebaseFirestore get db => _db;
 
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+
+  Future<bool> exist<T extends Model>({
+    required String section,
+    required String namespace,
+    required String uid,
+  }) async {
+    try {
+      final doc = await db.collection(section).doc(namespace)
+          .collection(Model.getParam<T>()).doc(uid).get();
+      return doc.exists;
+    } catch (e) {
+      debugPrint(e.toString());
+      return false;
+    }
+  }
 
   Future<void> set<T extends Model>({
     required String section,
@@ -34,6 +54,11 @@ class FirebaseHelper {
     required String namespace,
     required T data,
   }) async {
+    final e = await exist<T>(section: section, namespace: namespace, uid: data.uid);
+    if (!e) {
+      return await db.collection(section).doc(namespace)
+          .collection(Model.getParam<T>()).doc(data.uid).set(data.map);
+    }
     return await db.collection(section).doc(namespace)
         .collection(Model.getParam<T>()).doc(data.uid).update(data.map);
   }
@@ -43,6 +68,8 @@ class FirebaseHelper {
     required String namespace,
     required String uid,
   }) async {
+    final e = await exist<T>(section: section, namespace: namespace, uid: uid);
+    if (!e) return;
     return await db.collection(section).doc(namespace)
         .collection(Model.getParam<T>()).doc(uid).delete();
   }

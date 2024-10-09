@@ -13,21 +13,31 @@
     "cancel": "Cancel",
     "remove": "Remove"
   },
-  "home": {
-    "scan": "Scan ticket",
-    "schedule": "Schedule",
-    "title": {
-      "default": "Schedules",
-      "editor": "Issue history"
-    }
+  "customer": {
+    "title": "Schedules"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "tabSchedules": "Schedules",
+    "tabTickets": "Tickets",
+    "actAddSchedule": "Add schedule",
+    "actIssueTicket": "Issue ticket",
+    "msgNeedLogin": "You need to login to access this page"
   },
   "scanner": {
-    "title": "@:home.scan"
+    "title": "Scan ticket"
   },
   "schedule": {
-    "title": "Edit schedule",
-    "seats": "Seats",
-    "add": "Add schedule"
+    "seat": "Seats",
+    "date": "Date",
+    "time": "Time"
+  },
+  "ticket": {
+    "name": "Name",
+    "number": "Number",
+    "issued": "Issued at",
+    "expired": "Expired",
+    "notExpired": "Not expired"
   },
   "auth": {
     "section": "Section",

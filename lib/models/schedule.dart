@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:ticket_management/models/model.dart';
 
 class Schedule extends Model {
@@ -33,6 +34,10 @@ class Schedule extends Model {
   DateTime get datetime => getDateTime(keyDateTime) ?? DateTime.now();
 
   set datetime(DateTime value) => setDateTime(keyDateTime, value);
+
+  void changeDate(DateTime date) => setDate(keyDateTime, date);
+
+  void changeTime(TimeOfDay tod) => setTime(keyDateTime, tod);
 
   int get seats => getValue<int>(keySeats) ?? seatsMin;
 

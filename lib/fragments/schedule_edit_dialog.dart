@@ -33,16 +33,28 @@ class _ScheduleEditDialogState extends State<ScheduleEditDialog> {
     });
   }
 
-  void onDateTimeTapped() async {
+  void onDatePressed() async {
     final now = DateTime.now();
-    final datetime = await showDatePicker(
+    final date = await showDatePicker(
       context: context,
       currentDate: editing.datetime,
       firstDate: now.subtract(const Duration(days: 365)),
       lastDate: now.add(const Duration(days: 365)),
     );
-    if (datetime == null) return;
-    editing.datetime = datetime;
+    if (date == null) return;
+    editing.changeDate(date);
+  }
+
+  void onTimePressed() async {
+    final time = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(
+        hour: editing.datetime.hour,
+        minute: editing.datetime.minute,
+      ),
+    );
+    if (time == null) return;
+    editing.changeTime(time);
   }
 
   void onSeatAddPressed() => changeSeats(math.min(editing.seats+1, Schedule.seatsMax));
@@ -78,23 +90,41 @@ class _ScheduleEditDialogState extends State<ScheduleEditDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(widget.schedule?.code ?? LocaleKeys.schedule_add.tr()),
+      title: Text(widget.schedule?.code ?? LocaleKeys.dashboard_actAddSchedule.tr()),
       content: SingleChildScrollView(
         child: Column(
           children: [
             // Date
-            InkWell(
-              onTap: onDateTimeTapped,
-              child: Wrap(
-                children: [
-                  const Icon(Icons.calendar_today_outlined),
-                  Text(DateFormat.MMMMd().format(editing.datetime)),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: onDatePressed,
+                  child: Wrap(
+                    children: [
+                      const Icon(Icons.calendar_today_sharp),
+                      Text(DateFormat.MMMMd().format(editing.datetime)),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: onTimePressed,
+                  child: Wrap(
+                    children: [
+                      const Icon(Icons.timer_sharp),
+                      Text(TimeOfDay(
+                        hour: editing.datetime.hour,
+                        minute: editing.datetime.minute,
+                      ).format(context)),
+                    ],
+                  ),
+                ),
+              ],
             ),
             // Seats
             TextField(
               controller: controller,
+              textAlign: TextAlign.center,
               decoration: InputDecoration(
                 prefix: IconButton(
                   icon: const Icon(Icons.remove),
@@ -104,7 +134,7 @@ class _ScheduleEditDialogState extends State<ScheduleEditDialog> {
                   icon: const Icon(Icons.add),
                   onPressed: onSeatAddPressed,
                 ),
-                labelText: LocaleKeys.schedule_seats.tr(),
+                labelText: LocaleKeys.schedule_seat.tr(),
               ),
               keyboardType: const TextInputType.numberWithOptions(
                 signed: false,

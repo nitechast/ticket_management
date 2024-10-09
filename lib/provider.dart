@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ticket_management/firebase.dart';
 import 'package:ticket_management/models/schedule.dart';
@@ -14,11 +15,14 @@ void refresh(WidgetRef ref) {
 }
 
 final section = StateNotifierProvider<ObjectState<String>, String>((ref) {
-  return ObjectState<String>(ref, "");
+  return ObjectState<String>(ref, FirebaseHelper.sectionPlanetarium);
 });
 
 final namespace = StateNotifierProvider<ObjectState<String>, String>((ref) {
-  return ObjectState<String>(ref, "");
+  return ObjectState<String>(ref, kDebugMode
+      ? FirebaseHelper.namespaceTest
+      : FirebaseHelper.namespaceProduction
+  );
 });
 
 final tickets = StateNotifierProvider<ModelsState<Ticket>, List<Ticket>>((ref) {
@@ -30,7 +34,7 @@ final schedules = StateNotifierProvider<ModelsState<Schedule>, List<Schedule>>((
 });
 
 final user = StateNotifierProvider<ModelState<User>, User>((ref) {
-  return ModelState<User>(ref, User(), (map) => User.fromMap(map));
+  return ModelState<User>(ref, User.anonymous(), (map) => User.fromMap(map));
 });
 
 Future<bool> signIn(WidgetRef ref) async {
@@ -45,6 +49,10 @@ Future<bool> signIn(WidgetRef ref) async {
       data
   );
   return true;
+}
+
+Future<void> signOut(WidgetRef ref) async  {
+  ref.watch(user.notifier).clear();
 }
 
 void signAnonymous(WidgetRef ref) {

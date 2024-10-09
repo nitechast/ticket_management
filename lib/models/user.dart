@@ -9,6 +9,8 @@ class User extends Model {
 
   static const int levelEditor = 5;
 
+  static const int levelUser = 8;
+
   static const int levelDefault = 9;
 
   static const String nameAnonymous = "anonymous";
@@ -43,7 +45,7 @@ class User extends Model {
 
   String? get imageUrl => getValue<String>(keyImageUrl);
 
-  bool get isDefault => level <= levelDefault;
+  bool get isUser => level <= levelUser;
 
   bool get isEditor => level <= levelEditor;
 
