@@ -17,11 +17,11 @@ final _tickets = Provider<Map<String, List<Ticket>>>((ref) {
   final Map<String, List<Ticket>> map = {};
   final schedules = ref.watch(_schedules);
   for(Schedule s in schedules) {
-    map[s.code] = <Ticket>[];
+    map[s.uid] = <Ticket>[];
   }
   final tickets = ref.watch(provider.tickets);
   for(Ticket item in tickets) {
-    map[Schedule.getCode(item.date)]!.add(item);
+    map[item.scheduleUid]!.add(item);
   }
   return map;
 });
@@ -51,11 +51,11 @@ class _ScheduleListState extends ConsumerState<ScheduleList> {
       itemCount: schedules.length,
       itemBuilder: (context, index) {
         final item = schedules[index];
-        final ts = tickets[item.code]!;
+        final ts = tickets[item.uid]!.fold<int>(0, (prev, t) => prev + t.seats);
         return ScheduleCard(
           datetime: item.datetime,
           maxSeats: item.seats,
-          leftSeats: item.seats - ts.length,
+          leftSeats: item.seats - ts,
           onTap: widget.onItemTap == null ? null : () {
             widget.onItemTap!(item);
           },

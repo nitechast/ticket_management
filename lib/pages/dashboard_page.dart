@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ticket_management/fragments/schedule_edit_dialog.dart';
+import 'package:ticket_management/fragments/ticket_edit_dialog.dart';
 import 'package:ticket_management/generated/locale_keys.g.dart';
 import 'package:ticket_management/lists/schedule_list.dart';
 import 'package:ticket_management/lists/ticket_list.dart';
@@ -43,6 +44,19 @@ class _DashboardPageState extends ConsumerState<DashboardPage> with TickerProvid
     );
   }
 
+  Future<Ticket?> showTicketEditDialog(Schedule schedule, int maxSeats, [Ticket? ticket]) async {
+    return await showDialog<Ticket>(
+        context: context,
+        builder: (context) {
+          return TicketEditDialog(
+            schedule: schedule,
+            ticket: ticket,
+            maxSeats: maxSeats,
+          );
+        }
+    );
+  }
+
   void onActionPressed() async {
     final user = ref.watch(provider.user);
     if (user.isEditor) {
@@ -54,7 +68,17 @@ class _DashboardPageState extends ConsumerState<DashboardPage> with TickerProvid
     }
   }
 
-  void onSchedulePressed(Schedule schedule) async {}
+  void onSchedulePressed(Schedule schedule) async {
+    // TODO: Calculate max seats
+    final result = await showTicketEditDialog(schedule, schedule.seats);
+    if (result == null) return;
+    // Issue ticket
+    ref.watch(provider.tickets.notifier).set(
+        ref.watch(provider.section),
+        ref.watch(provider.namespace),
+        result
+    );
+  }
 
   void onScheduleLongPressed(Schedule schedule) async {
     final result = await showScheduleEditDialog(schedule);

@@ -21,12 +21,9 @@ class Model {
     throw UnimplementedError();
   }
 
-  Model() {
-    map[keyUid] = const Uuid().v4();
-  }
+  Model();
 
   Model.fromMap(Map<String, dynamic> map) {
-    this;
     _map = map;
   }
 
@@ -38,7 +35,15 @@ class Model {
 
   String get code => throw UnimplementedError();
 
-  String get uid => getValue<String>(keyUid) ?? "";
+  String get uid {
+    final value = getValue<String>(keyUid);
+    if (value == null) {
+      final uid = const Uuid().v4();
+      setValue<String>(keyUid, uid);
+      return uid;
+    }
+    return value;
+  }
 
   T? getValue<T>(String key) {
     if (!map.containsKey(key)) {

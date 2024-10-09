@@ -14,6 +14,11 @@ void refresh(WidgetRef ref) {
   ref.watch(schedules.notifier).get(sec, nsp);
 }
 
+void clear(WidgetRef ref) {
+  ref.watch(tickets.notifier).clear();
+  ref.watch(schedules.notifier).clear();
+}
+
 final section = StateNotifierProvider<ObjectState<String>, String>((ref) {
   return ObjectState<String>(ref, FirebaseHelper.sectionPlanetarium);
 });
@@ -48,11 +53,13 @@ Future<bool> signIn(WidgetRef ref) async {
       FirebaseHelper.namespaceIam,
       data
   );
+  refresh(ref);
   return true;
 }
 
 Future<void> signOut(WidgetRef ref) async  {
   ref.watch(user.notifier).clear();
+  clear(ref);
 }
 
 void signAnonymous(WidgetRef ref) {

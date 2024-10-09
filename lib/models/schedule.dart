@@ -28,6 +28,12 @@ class Schedule extends Model {
 
   Schedule.fromMap(super.map) : super.fromMap();
 
+  Schedule.unknown() {
+    this;
+    datetime = DateTime.fromMillisecondsSinceEpoch(0);
+    seats = -1;
+  }
+
   @override
   String get code => getCode(datetime);
 

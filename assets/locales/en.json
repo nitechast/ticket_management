@@ -2,6 +2,7 @@
   "format": {
     "Hm": "HH:mm",
     "MMMMd": "MMMM d",
+    "datetime": "@:format.MMMMd @:format.Hm",
     "name": "{}",
     "seatUnit": "seat(s)"
   },
@@ -28,13 +29,13 @@
     "title": "Scan ticket"
   },
   "schedule": {
-    "seat": "Seats",
+    "seats": "Seats",
     "date": "Date",
     "time": "Time"
   },
   "ticket": {
     "name": "Name",
-    "number": "Number",
+    "seats": "@:schedule.seats",
     "issued": "Issued at",
     "expired": "Expired",
     "notExpired": "Not expired"

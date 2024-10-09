@@ -1,20 +1,21 @@
 import 'package:ticket_management/models/model.dart';
+import 'package:ticket_management/models/schedule.dart';
 
 class Ticket extends Model {
 
   static const String paramName = "ticket";
 
   Ticket({
-    DateTime? date,
+    required Schedule schedule,
     required String name,
-    int number = 1,
+    int seats = Schedule.seatsMin,
     DateTime? issued,
     required String code,
     bool expired = false,
   }) : super() {
-    this.date = date ?? DateTime.now();
+    scheduleUid = schedule.uid;
     this.name = name;
-    this.number = number;
+    this.seats = seats;
     this.issued = issued ?? DateTime.now();
     this.code = code;
     this.expired = expired;
@@ -22,11 +23,11 @@ class Ticket extends Model {
 
   Ticket.fromMap(super.map) : super.fromMap();
 
-  static const String keyDate = "date";
+  static const String keySchedule = "schedule";
 
   static const String keyName = "name";
 
-  static const String keyNumber = "number";
+  static const String keySeats = "seats";
 
   static const String keyIssued = "issued";
 
@@ -34,17 +35,17 @@ class Ticket extends Model {
 
   static const String keyExpired = "expired";
 
-  DateTime get date => getDateTime(keyDate) ?? DateTime.now();
+  String get scheduleUid => getValue<String>(keySchedule) ?? "";
 
-  set date(DateTime value) => setDateTime(keyDate, value);
+  set scheduleUid(String uid) => setValue<String>(keySchedule, uid);
 
   String get name => getValue<String>(keyName) ?? "";
 
   set name(String name) => setValue<String>(keyName, name);
 
-  int get number => getValue<int>(keyNumber) ?? 0;
+  int get seats => getValue<int>(keySeats) ?? Schedule.seatsMin;
 
-  set number(number) => setValue<int>(keyNumber, number);
+  set seats(number) => setValue<int>(keySeats, number);
 
   DateTime get issued => getDateTime(keyIssued) ?? DateTime.now();
 

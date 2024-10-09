@@ -134,7 +134,7 @@ class _ScheduleEditDialogState extends State<ScheduleEditDialog> {
                   icon: const Icon(Icons.add),
                   onPressed: onSeatAddPressed,
                 ),
-                labelText: LocaleKeys.schedule_seat.tr(),
+                labelText: LocaleKeys.schedule_seats.tr(),
               ),
               keyboardType: const TextInputType.numberWithOptions(
                 signed: false,
