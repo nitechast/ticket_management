@@ -6,6 +6,7 @@ import 'package:ticket_management/generated/locale_keys.g.dart';
 import 'package:ticket_management/pages/scanner_page.dart';
 import 'package:ticket_management/lists/schedule_list.dart';
 import 'package:ticket_management/lists/ticket_list.dart';
+import 'package:ticket_management/pages/schedule_edit_page.dart';
 import 'package:ticket_management/provider.dart' as provider;
 
 class HomePage extends ConsumerStatefulWidget {
@@ -28,13 +29,18 @@ class _HomePageState extends ConsumerState<HomePage> {
   ];
 
   void onEntered() {
-    setState(() {
-    });
+    provider.refresh(ref);
   }
 
   void onScanPressed() {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return const ScannerPage();
+    }));
+  }
+
+  void onScheduleEditPressed() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return const ScheduleEditPage();
     }));
   }
 
@@ -50,7 +56,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           IconButton(
             icon: const Icon(Icons.schedule_outlined),
             tooltip: LocaleKeys.home_schedule.tr(),
-            onPressed: () {},
+            onPressed: onScheduleEditPressed,
           ),
         ],
       ),

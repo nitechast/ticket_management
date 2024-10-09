@@ -29,7 +29,10 @@ final _tickets = Provider<Map<String, List<Ticket>>>((ref) {
 class ScheduleList extends ConsumerStatefulWidget {
   const ScheduleList({
     super.key,
+    this.onItemTap,
   });
+
+  final Function(Schedule)? onItemTap;
 
   @override
   ConsumerState createState() => _ScheduleListState();
@@ -53,6 +56,9 @@ class _ScheduleListState extends ConsumerState<ScheduleList> {
           datetime: item.datetime,
           maxSeats: item.seats,
           leftSeats: item.seats - ts.length,
+          onTap: widget.onItemTap == null ? null : () {
+            widget.onItemTap!(item);
+          },
         );
       },
     );

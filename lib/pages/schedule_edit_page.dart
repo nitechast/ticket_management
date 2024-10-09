@@ -67,13 +67,8 @@ class _ScheduleEditPageState extends ConsumerState<ScheduleEditPage> {
       appBar: AppBar(
         title: Text(LocaleKeys.schedule_title.tr()),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: ScheduleList(
-            onItemTap: onItemTap,
-          ),
-        ),
+      body: ScheduleList(
+        onItemTap: onItemTap,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: onFabPressed,

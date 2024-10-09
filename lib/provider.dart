@@ -6,6 +6,21 @@ import 'package:ticket_management/models/ticket.dart';
 import 'package:ticket_management/models/state.dart';
 import 'package:ticket_management/models/user.dart';
 
+void refresh(WidgetRef ref) {
+  final sec = ref.watch(section);
+  final nsp = ref.watch(namespace);
+  ref.watch(tickets.notifier).get(sec, nsp);
+  ref.watch(schedules.notifier).get(sec, nsp);
+}
+
+final section = StateNotifierProvider<ObjectState<String>, String>((ref) {
+  return ObjectState<String>(ref, "");
+});
+
+final namespace = StateNotifierProvider<ObjectState<String>, String>((ref) {
+  return ObjectState<String>(ref, "");
+});
+
 final tickets = StateNotifierProvider<ModelsState<Ticket>, List<Ticket>>((ref) {
   return ModelsState<Ticket>(ref, (map) => Ticket.fromMap(map));
 });
@@ -17,11 +32,6 @@ final schedules = StateNotifierProvider<ModelsState<Schedule>, List<Schedule>>((
 final user = StateNotifierProvider<ModelState<User>, User>((ref) {
   return ModelState<User>(ref, User(), (map) => User.fromMap(map));
 });
-
-void refresh(WidgetRef ref, String section, String namespace) {
-  ref.watch(tickets.notifier).get(section, namespace);
-  ref.watch(schedules.notifier).get(section, namespace);
-}
 
 Future<bool> signIn(WidgetRef ref) async {
   final auth.UserCredential credential = await FirebaseHelper().signInWithGoogle();

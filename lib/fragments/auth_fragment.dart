@@ -18,6 +18,10 @@ class AuthFragment extends ConsumerStatefulWidget {
 
 class _AuthFragmentState extends ConsumerState<AuthFragment> {
 
+  final TextEditingController sectionController = TextEditingController();
+
+  final TextEditingController namespaceController = TextEditingController();
+
   bool useManager = false;
 
   bool? status;
@@ -30,11 +34,16 @@ class _AuthFragmentState extends ConsumerState<AuthFragment> {
 
   void onButtonPressed() async {
     bool result = true;
+    // User
     if (useManager) {
       result = await provider.signIn(ref);
     } else {
       provider.signAnonymous(ref);
     }
+    // Section and namespace
+    ref.watch(provider.section.notifier).set(sectionController.text);
+    ref.watch(provider.namespace.notifier).set(namespaceController.text);
+    // Refresh
     setState(() {
       status = result;
     });
@@ -53,6 +62,7 @@ class _AuthFragmentState extends ConsumerState<AuthFragment> {
           children: [
             // Section
             TextField(
+              controller: sectionController,
               decoration: InputDecoration(
                 icon: const Icon(Icons.celebration_outlined),
                 labelText: LocaleKeys.auth_section.tr(),
@@ -60,6 +70,7 @@ class _AuthFragmentState extends ConsumerState<AuthFragment> {
             ),
             // Namespace
             TextField(
+              controller: namespaceController,
               decoration: InputDecoration(
                 icon: const Icon(Icons.domain_outlined),
                 labelText: LocaleKeys.auth_namespace.tr(),

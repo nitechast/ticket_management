@@ -11,8 +11,18 @@ class Schedule extends Model {
 
   static const String keySeats = "seats";
 
+  static const int seatsMin = 1, seatsMax = 10;
+
   static String getCode(DateTime datetime) {
     return DateFormat(formatDateTime).format(datetime);
+  }
+
+  Schedule([
+    DateTime? datetime,
+    int seats = seatsMin,
+  ]) : super() {
+    this.datetime = datetime ?? DateTime.now();
+    this.seats = seats;
   }
 
   Schedule.fromMap(super.map) : super.fromMap();
@@ -24,7 +34,7 @@ class Schedule extends Model {
 
   set datetime(DateTime value) => setDateTime(keyDateTime, value);
 
-  int get seats => getValue<int>(keySeats) ?? 0;
+  int get seats => getValue<int>(keySeats) ?? seatsMin;
 
   set seats(value) => setValue<int>(keySeats, value);
 

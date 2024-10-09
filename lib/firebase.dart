@@ -65,8 +65,8 @@ class FirebaseHelper {
   }) async {
     final event = await db.collection(section).doc(namespace).collection(Model.getParam<T>()).get();
     List<Map<String, dynamic>> results = [];
-    for(var doc in event.docs) {
-      results.add(doc as Map<String, dynamic>);
+    for(QueryDocumentSnapshot doc in event.docs) {
+      results.add(doc.data() as Map<String, dynamic>);
     }
     return results;
   }
