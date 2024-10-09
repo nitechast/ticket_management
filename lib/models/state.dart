@@ -52,9 +52,6 @@ class ModelsState<T extends Model> extends StateNotifier<List<T>> {
       section: section,
       namespace: namespace,
     );
-    if (response.isEmpty) {
-      return;
-    }
     state = List<T>.generate(response.length, (index) => convert(response[index]));
   }
 }
